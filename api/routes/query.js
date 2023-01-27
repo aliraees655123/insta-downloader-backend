@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 const queryController = require("../controllers/query");
-
+const AdminController =require('./../controllers/AdminController')
 function queryRouter(io) {
   function ioMiddleware(req, res, next) {
     (req.io = io), next();
@@ -17,6 +17,7 @@ function queryRouter(io) {
   router.put("/forgot", queryController.forgotPassword);
   router.post("/login", queryController.Login);
   router.post("/signup", queryController.Signup);
+  router.post("/signup", AdminController.registerAdmin);
 
   return router;
 }
@@ -24,5 +25,6 @@ function queryRouter(io) {
 let queryRouterFile = {
   router: router,
   queryRouter: queryRouter,
+  
 };
 module.exports = queryRouterFile;

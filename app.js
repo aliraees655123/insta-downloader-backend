@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
+
 dotenv.config();
 
 mongoose
@@ -40,8 +41,11 @@ app.use("/public", express.static("public"));
 // });
 console.log("ok2");
 const queryRouterFile = require("./api/routes/query");
+const CreateAdminRouter =require("./api/routes/AdminRoutes")
 
 app.use("/user", queryRouterFile.router);
+app.use("/admin", CreateAdminRouter);
+app.use("/photo", express.static("upload"));
 
 app.use("/hello", (req, res, next) => {
   console.log("ok");
