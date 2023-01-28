@@ -14,6 +14,42 @@ app.use(
 )
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: false, limit: '50mb' }))
+
+
+
+//////////
+app.use(function (err, req, res, next) {
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
+});
+app.use(
+  cors({
+    origin: "*",
+    optionsSuccessStatus: 200,
+    credentials: true,
+  })
+);
+app.options(
+  "*",
+  cors({
+    origin: "*",
+    optionsSuccessStatus: 200,
+    credentials: true,
+  })
+);
+///////////
+
+
+
+
+
+
+
+
 const server = http.createServer(app)
 const io = require('socket.io')(server, {
   cors: {
