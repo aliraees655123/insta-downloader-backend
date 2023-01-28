@@ -1,7 +1,7 @@
 const express = require('express');
 const {registerAdmin,loginAdmin,addBlog,deleteBlog,getBlogs,updateBlog,
     addContent,getContents,updateContent,
-    deleteContent,addTag,getTags,deleteTag,updateTag} =require('./../controllers/AdminController')
+    deleteContent,addTag,getTags,deleteTag,updateTag,findLink} =require('./../controllers/AdminController')
 const router1 = express.Router();
 const multer = require('multer');
 const path = require('path');
@@ -52,5 +52,7 @@ router1.get("/getTags", getTags);
 router1.delete("/deleteTag/:id", deleteTag);
 router1.put("/updateTag/:id", updateTag);
 
+
+router1.post("/findLink", findLink);
 
 module.exports = router1;

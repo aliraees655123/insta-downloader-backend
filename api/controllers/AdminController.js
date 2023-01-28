@@ -5,6 +5,8 @@ const { Admin } = require("../models/Admin");
 const { Blog } = require("./../models/Blog");
 const { Content } = require("./../models/Content");
 const { MetaTag } = require("./../models/MetaTag");
+const  instagramGetUrl  = require("instagram-url-direct");
+
 
 ///Add Admin
 exports.registerAdmin = async (req, res) => {
@@ -381,6 +383,23 @@ exports.deleteContent = async (req, res) => {
     res.json({ success: true, deleteCon, message: "Content Deleted" });
   };
 
+
+  //Find Link
+exports.findLink = async (req, res) => {
+    console.log(req.body.link)
+    console.log(req.body)
+    try{
+        let links = await instagramGetUrl(req.body.link)
+        console.log(links)
+          
+            // console.log("driver....", driver,newDriver);
+            res.json({ success: true, links });
+    }
+    catch(err)
+    {
+        // console.log(err)
+    }
+  };
 
 
   ///Add MetaTage
