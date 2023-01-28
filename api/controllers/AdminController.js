@@ -125,8 +125,10 @@ exports.getBlogs = async (req, res) => {
 exports.updateBlog = async (req, res) => {
   let { id } = req.params;
   const images = req.files;
-  let { title, description, publisherName, p1, p2, p3, p4, title2, date } =
+  let { title, description, publisherName, p1, p2, p3, p4, title2, date,photo1,photo2 } =
     req.body;
+
+    console.log("images",images.photo1,images.photo2)
   try {
     let data = await Blog.findById({ _id: id });
 
@@ -137,11 +139,39 @@ exports.updateBlog = async (req, res) => {
     data.p2 = p2;
     data.p3 = p3;
     data.p4 = p4;
-    (data.title2 = title2), (data.date = date);
-    data.img1 = `http://localhost:6002/photo/${images.photo1[0].filename}`;
-    (data.img2 = `http://localhost:6002/photo/${images.photo2[0].filename}`),
+    data.img1=photo1;
+    data.img2=photo2;
+
+    data.title2 = title2; 
+    data.date = date;
+
+    if(images.photo1 != undefined)
+    {
+        if(images?.photo1[0]?.filename)
+    {
+
+        console.log("images.photo1[0].filename",images.photo1[0].filename)
+        data.img1 = `http://localhost:6002/photo/${images.photo1[0].filename}`;
+    }
+  
+
+    }
+    if(images.photo2 != undefined)
+    {
+  
+    if(images?.photo2[0]?.filename)
+    {
+
+        data.img2 = `http://localhost:6002/photo/${images.photo2[0].filename}`;
+
+    }
+
+    }
+
+
+    
       await data.save();
-    console.log("dataCompleProfile123", data);
+    // console.log("dataCompleProfile123", data);
     if (data) {
       res.status(200).json({
         message: "Information Updated",
@@ -308,30 +338,19 @@ exports.updateContent = async (req, res) => {
     download
   };
   try {
+
+
+    const contents = await Content.find();
+
+    let filteredArr = contents?.filter((obj) => (obj.page === page && obj.language===language));
+
+
     const updatedContent = await Content.findByIdAndUpdate(
       req.params.id,
       newData,
       { new: true }
     );
-    // let data = await Content.findById({ _id: id });
-
-    // page,
-    // mainHeading,
-    // copyLinkTxt,
-    // placeHolderTxt,
-    // feature,
-    // featureTxt,
-    // videoTxt,
-    // sliderData,
-    // questionsHeading,
-    // questionsText,
-    // btnQuestionTxt,
-    // faqData,
-    // termConditionsText,
-    // privacyText,
-    // faqTxt,
-    // emailTxt,
-    // subscribeBtnTxt,
+   
     if (!updatedContent) {
       return next(new AppError("Invalid Content Id Provided", 404));
     }
@@ -341,6 +360,9 @@ exports.updateContent = async (req, res) => {
       message: "Content Updated Succesfully",
       updatedContent,
     });
+
+
+    
   } catch (error) {
     res.status(500).json({
       Error_Message: error,
@@ -371,7 +393,7 @@ exports.addTag = async (req, res) => {
 
         let filteredArr = mataTag?.filter((obj) => obj.name === name );
 
-        
+
 
       let data = new MetaTag({
         name: name,
