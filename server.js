@@ -1,6 +1,6 @@
 const http = require('http')
 const express = require('express')
-// const app = express();
+
 require('events').EventEmitter.prototype._maxListeners = 100
 const app = require('./app')
 var cors = require('cors')
@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: false, limit: '50mb' }))
 
 
 //////////
+
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
@@ -41,6 +42,9 @@ app.options(
     credentials: true,
   })
 );
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 ///////////
 
 
