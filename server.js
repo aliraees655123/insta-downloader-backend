@@ -33,7 +33,8 @@ io.on('connection', (socket) => {
   })
 })
 
-const port = process.env.port || 6002
+// const port = process.env.port || 6002
+const port =  6002
 server.listen(port, () => {
   console.log(`Server Started At PORT : ${port} {Ansa Media Project Backend}`)
 })
